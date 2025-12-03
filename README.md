@@ -1,5 +1,5 @@
-# consult_med
+# hospital_med
 
-Programa com função de solucionar o problema de Consultórios Médicos com pacientes, médicos e agendamento de consultas.<br>
+Programa com função de solucionar o problema de Hospital médico com pacientes, médicos, agendamento de consultas, cirurgias, banco de sangue e internamentos.<br>
 
 // Falta do node_modules (presente no arquivo zipado).
