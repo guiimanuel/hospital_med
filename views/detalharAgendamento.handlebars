@@ -6,15 +6,15 @@
     <title>Agendamento - HOSPITAL_MED</title>
 </head>
 <body>
-    <h1>Detalhamento de Consulta - HOSPITAL_MED</h1>
+    <h1>Detalhamento do Agendamento da Consulta - HOSPITAL_MED</h1>
 
-    <p>Id Consulta: {{agendamento.id}}</p>
+    <p>ID Consulta: {{agendamento.id}}</p>
     <br>
-    <p>Nome: {{agendamento.nome_paciente}}</p>
+    <p>ID do Paciente: <a href="/pacientes/{{agendamento.id_paciente}}">{{agendamento.id_paciente}}</a></p>
+    <br>
+    <p>ID do Médico: <a href="/medicos/{{agendamento.id_medico}}">{{agendamento.id_medico}}</a></p>
     <br>
     <p>Horário de início: {{agendamento.hora_inicio}}</p>
-    <br>
-    <p>Especialização Agendada: {{agendamento.especializacao}}</p>
 
     <a href="/agendamentos">Voltar</a>
 </body>

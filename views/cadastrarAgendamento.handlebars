@@ -9,12 +9,12 @@
     <h1>Cadastro Agendamento de Consulta - HOSPITAL_MED</h1>
 
     <form action="/agendamentos" method="post">
-    <label for="nome">Nome</label>
-    <input type="text" name="nome" placeholder="Nome do Paciente" required>
-    <label for="idade">Horário da Consulta</label>
-    <input type="number" name="idade" placeholder="Horário" required>
-    <label for="Especialização">Especialização</label>
-    <input type="text" name="Especialização" placeholder="Especialização do Agendamento" required>
+    <label for="id_paciente">ID do Paciente</label>
+    <input type="number" name="id_paciente" placeholder="ID do Paciente" required>
+    <label for="hora_inicio">Horário da Consulta</label>
+    <input type="date" name="hora_inicio" placeholder="Horário" required>
+    <label for="id_medico">ID do Médico</label>
+    <input type="number" name="id_medico" placeholder="ID do Médico" required>
     <button type="submit">Cadastrar</button>
     </form>
 

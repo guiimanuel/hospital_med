@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Médico - HOSPITAL_MED</title>
+    <title>Cadastro de Médico - HOSPITAL_MED</title>
 </head>
 <body>
     <h1>Cadastro de Médicos - HOSPITAL_MED</h1>
 
     <form action="/medicos" method="post">
-    <label for="nome">Nome</label>
-    <input type="text" name="nome" placeholder="Nome do Médico" required>
-    <label for="idade">Idade</label>
-    <input type="number" name="idade" placeholder="Idade do Médico" required>
-    <label for="Especialização">Especialização</label>
-    <input type="text" name="Especialização" placeholder="Especialização do Médico" required>
-    <button type="submit">Cadastrar</button>
+        <label for="nome">Nome</label>
+        <input type="text" name="nome" placeholder="Nome do Médico" required>
+        
+        <label for="crm">CRM</label>
+        <input type="text" name="crm" placeholder="CRM do Médico" required>
+        
+        <label for="idade">Idade</label>
+        <input type="number" name="idade" placeholder="Idade do Médico" required>
+
+        <label for="especializacao">Especialização</label>
+        <input type="text" name="especializacao" placeholder="Especialização do Médico" required>
+
+        <button type="submit">Cadastrar</button>
     </form>
 
     <a href="/">Voltar</a>

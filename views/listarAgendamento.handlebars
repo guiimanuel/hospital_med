@@ -11,7 +11,7 @@
     <ul>
         {{#each agendamentos}}
             <li>
-                <a href="/agendamentos/{{id}}">{{nome_paciente}}</a>
+                <a href="/agendamentos/{{id_paciente}}">ID Consulta: {{id_paciente}}</a>
                 <a href="/agendamentos/{{id}}/editar">Editar</a>
 
                 <form action="/agendamentos/{{id}}/excluir" method="post" style="display: inline;">

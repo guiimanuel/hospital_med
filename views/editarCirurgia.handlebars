@@ -8,9 +8,11 @@
 <body>
     <h1>Editar Informações da Cirurgia - HOSPITAL_MED</h1>
 
-    <form action="/medicos/{{cirurgia.id}}" method="post">
+    <form action="/cirurgias/{{cirurgia.id}}" method="post">
         <label for="nome">Nome do Paciente</label>
-        <input type="text" name="nome" value="{{cirurgia.nome_paciente}}"required>
+        <input type="text" name="nome_paciente" value="{{cirurgia.nome_paciente}}"required>
+        <label for="medico_resp">Médico Responsável</label>
+        <input type="text" name="medico_resp" value="{{cirurgia.medico_resp}}" required>
         <label for="tipo_cirurgia">Tipo da Cirurgia</label>
         <input type="text" name="tipo_cirurgia" value="{{cirurgia.tipo_cirurgia}}" required>
         <label for="data_cirurgia">Data da Cirurgia</label>

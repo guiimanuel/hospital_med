@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,12 @@
 
     <p>Id Internamento: {{internamento.id}}</p>
     <br>
-    <p>Nome do Paciente: {{internamento.nome_paciente}}</p>
+    <p>ID do Paciente: <a href="/pacientes/{{internamento.id_paciente}}">{{internamento.id_paciente}}</a></p>
     <br>
+    <p>Médico Responsável: <a href="/medicos/{{internamento.medico_resp}}">{{internamento.medico_resp}}</a></p>
     <p>Quarto: {{internamento.quarto}}</p>
     <br>
-    <p>Data de data_entrada: {{internamento.data_entrada}}</p>
+    <p>Data de Entrada: {{#if internamento.data_entrada}}{{format-date internamento.data_entrada}}{{/if}}</p>
     <br>
     <a href="/internamentos">Voltar</a>
 </body>
