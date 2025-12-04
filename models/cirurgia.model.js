@@ -1,10 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("..config/database");
+const sequelize = require("../config/database");
 const Cirurgia = sequelize.define("Cirurgia", {
-    id_cirurgia: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
     nome_paciente: {
         type: DataTypes.STRING,
         allowNull: false

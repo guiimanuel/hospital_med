@@ -1,10 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("..config/database");
-const Agendamento = sequelize.define("Agendamento", {
-    id_agendamento: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
+const sequelize = require("../config/database");
+const agendamentos = sequelize.define("agendamento", {
     nome_paciente: {
         type: DataTypes.STRING,
         allowNull: false
@@ -18,4 +14,4 @@ const Agendamento = sequelize.define("Agendamento", {
         allowNull: false
     }
 });
-module.exports = Agendamento;
+module.exports = agendamentos;

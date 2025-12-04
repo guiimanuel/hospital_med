@@ -8,7 +8,7 @@
 <body>
     <h1>Editar Agendamento de Consultas - HOSPITAL_MED</h1>
 
-    <form action="/agendamentos/{{agendamento.id_agendamento}}" method="post">
+    <form action="/agendamentos/{{agendamento.id}}" method="post">
         <label for="nome">Nome</label>
         <input type="text" name="nome" value="{{agendamento.nome_paciente}}"required>
         <label for="hora_inicio">Horário da Consulta</label>

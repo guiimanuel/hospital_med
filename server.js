@@ -1,6 +1,5 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
 
 const agendamento = require('./models/agendamento.model');
 const medico = require('./models/medico.model');
@@ -18,35 +17,6 @@ app.use(express.urlencoded({extended: true}));
 
 app.engine('handlebars', exphbs.engine({defaultLayout: false}));
 app.set('view engine', 'handlebars');
-app.use(bodyParser.urlencoded({extended: true}));
-
-var pacientes = [
-    {id_paciente:1, nome: 'Guilherme Manuel', idade: 16, cpf: 12345678901},
-    {id_paciente:2, nome: 'Arthur Gusmão', idade: 16, cpf: 23456789012},
-    {id_paciente:3, nome: 'Jefferson Ricardo', idade: 17, cpf: 34567890123}
-];
-
-var medicos = [
-    {id_medico:1, nome: 'Stephan Lacerda', idade: 28, especializacao: 'Cardiologia'},
-    {id_medico:2, nome: 'Richard Guilherme', idade: 37, especializacao: 'Pediatria'},
-    {id_medico:3, nome: 'Kelven Sérgio', idade: 56, especializacao: 'Urologia'}
-];
-
-var agendamentos = [
-    {id_agendamento:1, nome_paciente: 'Guilherme Manuel', hora_inicio: 16, especializacao: 'Cardiologia' }
-];
-
-var bancosSangue = [
-    {id_sangue:1, tipo_sangue: 'A+', quantidade: 10},
-];
-
-var internamentos = [
-    {id_internamento:1, nome_paciente: 'Guilherme Manuel', quarto: 101, data_entrada: '2024-01-10'},
-];
-
-var cirurgias = [
-    {id_cirurgia:1, nome_paciente: 'Arthur Gusmão', tipo_cirurgia: 'Apendicite', data_cirurgia: '2024-02-15'},
-];
 
 //home
 app.get('/', (req, res) => {
@@ -138,18 +108,6 @@ app.post('/pacientes', async (req,res) => {
         console.error('Erro ao cadastrar paciente:', error);
         res.status(500).send('Erro ao cadastrar paciente');
     }
-    const {nome, idade, cpf} = req.body;
-    console.log(nome)
-    console.log(idade)
-    console.log(cpf)
-    const novoPaciente = {
-        id_paciente: pacientes.length + 1,
-        nome: nome,
-        idade: idade,
-        cpf: cpf
-    };
-    pacientes.push(novoPaciente);
-    res.render('listarPaciente', {pacientes});
 });
 
 //medicos
@@ -169,15 +127,6 @@ app.post('/medicos', async (req,res) => {
         console.error('Erro ao cadastrar médico:', error);  
         res.status(500).send('Erro ao cadastrar médico');
     }
-    const {nome, idade, especializacao} = req.body;
-    const novoMedico = {
-        id_medico: medicos.length + 1,
-        nome: nome,
-        idade: idade,
-        especializacao: especializacao
-    };
-    medicos.push(novoMedico);
-    res.render('listarMedico', {medicos});
 });
 
 //agendamentos
@@ -188,24 +137,15 @@ app.get('/agendamentos/novo', (req,res) => {
 app.post('/agendamentos', async (req,res) => {
     try{
         await agendamento.create({
-            nome_paciente: req.body.nome,
+            nome_paciente: req.body.nome_paciente,
             hora_inicio: req.body.hora_inicio,
             especializacao: req.body.especializacao
         });
-        res.redirect('/agendamentos');
+        
     }catch(error){
         console.error('Erro ao cadastrar agendamento:', error);
         res.status(500).send('Erro ao cadastrar agendamento');
     }
-    const {nome_paciente, hora_inicio, especializacao} = req.body;
-    const novoAgendamento = {
-        id_agendamento: agendamentos.length + 1,
-        nome_paciente: nome,
-        hora_inicio: hora_inicio,
-        especializacao: especializacao
-    };
-    agendamentos.push(novoAgendamento);
-    res.render('listarAgendamento', {agendamentos});
 });
 
 //bancos de sangue
@@ -224,14 +164,6 @@ app.post('/bancosSangue', async (req,res) => {
         console.error('Erro ao cadastrar banco de sangue:', error);
         res.status(500).send('Erro ao cadastrar banco de sangue');
     }
-    const {tipo_sangue, quantidade} = req.body;
-    const novoBancoSangue = {
-        id_sangue: bancosSangue.length + 1,
-        tipo_sangue: tipo_sangue,
-        quantidade: quantidade
-    };
-    bancosSangue.push(novoBancoSangue);
-    res.render('listarBancoSangue', {bancosSangue});
 });
 
 //internamentos
@@ -251,15 +183,6 @@ app.post('/internamentos', async (req,res) => {
         console.error('Erro ao cadastrar internamento:', error);
         res.status(500).send('Erro ao cadastrar internamento');
     }
-    const {nome_paciente, quarto, data_entrada} = req.body;
-    const novoInternamento = {
-        id_internamento: internamentos.length + 1,
-        nome_paciente: nome_paciente,
-        quarto: quarto,
-        data_entrada: data_entrada
-    };
-    internamentos.push(novoInternamento);
-    res.render('listarInternamento', {internamentos});
 });
 
 //cirurgias
@@ -279,22 +202,13 @@ app.post('/cirurgias', async (req,res) => {
         console.error('Erro ao cadastrar cirurgia:', error);
         res.status(500).send('Erro ao cadastrar cirurgia');
     }
-    const {nome_paciente, tipo_cirurgia, data_cirurgia} = req.body;
-    const novaCirurgia = {
-        id_cirurgia: cirurgias.length + 1,
-        nome_paciente: nome_paciente,
-        tipo_cirurgia: tipo_cirurgia,
-        data_cirurgia: data_cirurgia
-    };
-    cirurgias.push(novaCirurgia);
-    res.render('listarCirurgia', {cirurgias});
 });
 
 //-----------------------------------------detalhar------------------------------------------------------------//
 //pacientes
-app.get('/pacientes/:id_paciente', async (req,res) => {
+app.get('/pacientes/:id', async (req,res) => {
     try{
-        const pacienteDetalhar = await paciente.findByPk(req.params.id_paciente, {raw: true});
+        const pacienteDetalhar = await paciente.findByPk(req.params.id, {raw: true});
         res.render('detalharPaciente', {paciente: pacienteDetalhar});
     }catch(error){
         console.error('Erro ao buscar paciente:', error);
@@ -304,9 +218,9 @@ app.get('/pacientes/:id_paciente', async (req,res) => {
 });
 
 //medicos
-app.get('/medicos/:id_medico', async (req,res) => {
+app.get('/medicos/:id', async (req,res) => {
     try{
-        const medicoDetalhar = await medico.findByPk(req.params.id_medico, {raw: true});
+        const medicoDetalhar = await medico.findByPk(req.params.id, {raw: true});
         res.render('detalharMedico', {medico: medicoDetalhar});
     }catch(error){
         console.error('Erro ao buscar médico:', error);
@@ -315,9 +229,9 @@ app.get('/medicos/:id_medico', async (req,res) => {
 });
 
 //agendamentos
-app.get('/agendamentos/:id_agendamento', async (req,res) => {
+app.get('/agendamentos/:id', async (req,res) => {
     try{
-        const agendamentoDetalhar = await agendamento.findByPk(req.params.id_agendamento, {raw: true});
+        const agendamentoDetalhar = await agendamento.findByPk(req.params.id, {raw: true});
         res.render('detalharAgendamento', {agendamento: agendamentoDetalhar});
     }catch(error){
         console.error('Erro ao buscar agendamento:', error);
@@ -326,9 +240,9 @@ app.get('/agendamentos/:id_agendamento', async (req,res) => {
 });
 
 //bancos de sangue
-app.get('/bancosSangue/:id_sangue', async (req,res) => {
+app.get('/bancosSangue/:id', async (req,res) => {
     try{
-        const bancoSangueDetalhar = await bancoSangue.findByPk(req.params.id_sangue, {raw: true});
+        const bancoSangueDetalhar = await bancoSangue.findByPk(req.params.id, {raw: true});
         res.render('detalharBancoSangue', {bancoSangue: bancoSangueDetalhar});
     }catch(error){
         console.error('Erro ao buscar banco de sangue:', error);
@@ -337,9 +251,9 @@ app.get('/bancosSangue/:id_sangue', async (req,res) => {
 });
 
 //internamentos
-app.get('/internamentos/:id_internamento', async (req,res) => {
+app.get('/internamentos/:id', async (req,res) => {
     try{
-        const internamentoDetalhar = await internamento.findByPk(req.params.id_internamento, {raw: true});
+        const internamentoDetalhar = await internamento.findByPk(req.params.id, {raw: true});
         res.render('detalharInternamento', {internamento: internamentoDetalhar});
     }catch(error){
         console.error('Erro ao buscar internamento:', error);
@@ -348,9 +262,9 @@ app.get('/internamentos/:id_internamento', async (req,res) => {
 });
 
 //cirurgias
-app.get('/cirurgias/:id_cirurgia', async (req,res) => {
+app.get('/cirurgias/:id', async (req,res) => {
     try{
-        const cirurgiaDetalhar = await cirurgia.findByPk(req.params.id_cirurgia, {raw: true});
+        const cirurgiaDetalhar = await cirurgia.findByPk(req.params.id, {raw: true});
         res.render('detalharCirurgia', {cirurgia: cirurgiaDetalhar});
     }catch(error){
         console.error('Erro ao buscar cirurgia:', error);
@@ -358,11 +272,11 @@ app.get('/cirurgias/:id_cirurgia', async (req,res) => {
     }
 });
 
-//-----------------------------------------editar------------------------------------------------------------//
+//-----------------------------------------editar//atualizar------------------------------------------------------------//
 //pacientes
-app.get('/pacientes/:id_paciente/editar', async (req,res) => {
+app.get('/pacientes/:id/editar', async (req,res) => {
     try{
-        const pacienteEditar = await pacientes.findByPk(req.params.id_paciente, {raw: true});
+        const pacienteEditar = await pacientes.findByPk(req.params.id, {raw: true});
         res.render('editarPaciente', {paciente: pacienteEditar});
     }catch(error){
         console.error('Erro ao buscar paciente:', error);
@@ -370,9 +284,9 @@ app.get('/pacientes/:id_paciente/editar', async (req,res) => {
     }
 });
 
-app.post('/pacientes/:id_paciente', async (req,res) => {
+app.post('/pacientes/:id', async (req,res) => {
     try{
-        let pacienteAtualizar = await paciente.findByPk(req.params.id_paciente);
+        let pacienteAtualizar = await paciente.findByPk(req.params.id);
         pacienteAtualizar.nome = req.body.nome;
         pacienteAtualizar.idade = req.body.idade;
         pacienteAtualizar.cpf = req.body.cpf;
@@ -385,9 +299,9 @@ app.post('/pacientes/:id_paciente', async (req,res) => {
 });
 
 //medicos
-app.get('/medicos/:id_medico/editar', async (req,res) => {
+app.get('/medicos/:id/editar', async (req,res) => {
     try{
-        const medicoEditar = await medicos.findByPk(req.params.id_medico, {raw: true});
+        const medicoEditar = await medicos.findByPk(req.params.id, {raw: true});
         res.render('editarMedico', {medico: medicoEditar});
     }catch(error){
         console.error('Erro ao buscar médico:', error);
@@ -395,9 +309,9 @@ app.get('/medicos/:id_medico/editar', async (req,res) => {
     }
 });
 
-app.post('/medicos/:id_medico', async(req,res) => {
+app.post('/medicos/:id', async(req,res) => {
     try{
-        let medicoAtualizar = await medico.findByPk(req.params.id_medico);
+        let medicoAtualizar = await medico.findByPk(req.params.id);
         medicoAtualizar.nome = req.body.nome;
         medicoAtualizar.idade = req.body.idade;
         medicoAtualizar.especializacao = req.body.especializacao;
@@ -410,9 +324,9 @@ app.post('/medicos/:id_medico', async(req,res) => {
 });
 
 //agendamentos
-app.get('/agendamentos/:id_agendamento/editar', async (req,res) => {
+app.get('/agendamentos/:id/editar', async (req,res) => {
     try{
-        const agendamentoEditar = await agendamentos.findByPk(req.params.id_agendamento, {raw: true});
+        const agendamentoEditar = await agendamentos.findByPk(req.params.id, {raw: true});
         res.render('editarAgendamento', {agendamento: agendamentoEditar});
     }catch(error){
         console.error('Erro ao buscar agendamento:', error);
@@ -420,9 +334,9 @@ app.get('/agendamentos/:id_agendamento/editar', async (req,res) => {
     }
 });
 
-app.post('/agendametnos/:id_agendamento', async (req,res) => {
+app.post('/agendametnos/:id', async (req,res) => {
     try{
-        let agendamentoAtualizar = await agendamento.findByPk(req.params.id_agendamento);
+        let agendamentoAtualizar = await agendamento.findByPk(req.params.id);
         agendamentoAtualizar.nome_paciente = req.body.nome;
         agendamentoAtualizar.hora_inicio = req.body.hora_inicio;
         agendamentoAtualizar.especializacao = req.body.especializacao;
@@ -435,9 +349,9 @@ app.post('/agendametnos/:id_agendamento', async (req,res) => {
 });
 
 //bancos de sangue
-app.get('/bancosSangue/:id_sangue/editar', async (req,res) => {
+app.get('/bancosSangue/:id/editar', async (req,res) => {
     try{
-        const bancoSangueEditar = await bancosSangue.findByPk(req.params.id_sangue, {raw: true});
+        const bancoSangueEditar = await bancosSangue.findByPk(req.params.id, {raw: true});
         res.render('editarBancoSangue', {bancoSangue: bancoSangueEditar});
     }catch(error){
         console.error('Erro ao buscar banco de sangue:', error);
@@ -445,9 +359,9 @@ app.get('/bancosSangue/:id_sangue/editar', async (req,res) => {
     }
 });
 
-app.post('/bancosSangue/:id_sangue', async (req,res) => {
+app.post('/bancosSangue/:id', async (req,res) => {
     try{
-        let bancoSangueAtualizar = await bancoSangue.findByPk(req.params.id_sangue);
+        let bancoSangueAtualizar = await bancoSangue.findByPk(req.params.id);
         bancoSangueAtualizar.tipo_sangue = req.body.tipo_sangue;
         bancoSangueAtualizar.quantidade = req.body.quantidade;
         await bancoSangueAtualizar.save();
@@ -459,9 +373,9 @@ app.post('/bancosSangue/:id_sangue', async (req,res) => {
 });
 
 //internamentos
-app.get('/internamentos/:id_internamento/editar', async (req,res) => {
+app.get('/internamentos/:id/editar', async (req,res) => {
     try{
-        const internamentoEditar = await internamentos.findByPk(req.params.id_internamento, {raw: true});
+        const internamentoEditar = await internamentos.findByPk(req.params.id, {raw: true});
         res.render('editarInternamento', {internamento: internamentoEditar});
     }catch(error){
         console.error('Erro ao buscar internamento:', error);
@@ -469,9 +383,9 @@ app.get('/internamentos/:id_internamento/editar', async (req,res) => {
     }
 });
 
-app.post('/internamentos/:id_internamento', async (req,res) => {
+app.post('/internamentos/:id', async (req,res) => {
     try{
-        let internamentoAtualizar = await internamento.findByPk(req.params.id_internamento);
+        let internamentoAtualizar = await internamento.findByPk(req.params.id);
         internamentoAtualizar.nome_paciente = req.body.nome_paciente;
         internamentoAtualizar.quarto = req.body.quarto;
         internamentoAtualizar.data_entrada = req.body.data_entrada;
@@ -484,18 +398,18 @@ app.post('/internamentos/:id_internamento', async (req,res) => {
 });
 
 //cirurgias
-app.get('/cirurgias/:id_cirurgia/editar', async (req,res) => {
+app.get('/cirurgias/:id/editar', async (req,res) => {
     try{
-        const cirurgiaEditar = await cirurgias.findByPk(req.params.id_cirurgia, {raw: true});
+        const cirurgiaEditar = await cirurgias.findByPk(req.params.id, {raw: true});
         res.render('editarCirurgia', {cirurgia: cirurgiaEditar});
     }catch(error){
         console.error('Erro ao buscar cirurgia:', error);
         res.status(500).send('Erro ao buscar cirurgia');
     }
 });
-app.post('/cirurgias/:id_cirurgia', async (req,res) => {
+app.post('/cirurgias/:id', async (req,res) => {
     try{
-        let cirurgiaAtualizar = await cirurgia.findByPk(req.params.id_cirurgia);
+        let cirurgiaAtualizar = await cirurgia.findByPk(req.params.id);
         cirurgiaAtualizar.nome_paciente = req.body.nome_paciente;
         cirurgiaAtualizar.tipo_cirurgia = req.body.tipo_cirurgia;
         cirurgiaAtualizar.data_cirurgia = req.body.data_cirurgia;
@@ -509,9 +423,9 @@ app.post('/cirurgias/:id_cirurgia', async (req,res) => {
 
 //-----------------------------------------excluir------------------------------------------------------------//
 //pacientes
-app.post('/pacientes/:id_paciente/excluir', async(req,res) => {
+app.post('/pacientes/:id/excluir', async(req,res) => {
     try{
-        let pacienteExcluir = await paciente.findByPk(req.params.id_paciente);
+        let pacienteExcluir = await paciente.findByPk(req.params.id);
         await pacienteExcluir.destroy();
         res.redirect('/pacientes');
     }catch(error){
@@ -521,9 +435,9 @@ app.post('/pacientes/:id_paciente/excluir', async(req,res) => {
 });
 
 //medicos
-app.post('/medicos/:id_medico/excluir', async(req,res) => {
+app.post('/medicos/:id/excluir', async(req,res) => {
     try{
-        let medicoExcluir = await medico.findByPk(req.params.id_medico);
+        let medicoExcluir = await medico.findByPk(req.params.id);
         await medicoExcluir.destroy();
         res.redirect('/medicos');
     }catch(error){
@@ -533,9 +447,9 @@ app.post('/medicos/:id_medico/excluir', async(req,res) => {
 });
 
 //agendamentos
-app.post('/agendamentos/:id_agendamento/excluir', async (req,res) => {
+app.post('/agendamentos/:id/excluir', async (req,res) => {
     try{
-        let agendamentoExcluir = await agendamento.findByPk(req.params.id_agendamento);
+        let agendamentoExcluir = await agendamento.findByPk(req.params.id);
         await agendamentoExcluir.destroy();
         res.redirect('/agendamentos');
     }catch(error){
@@ -545,9 +459,9 @@ app.post('/agendamentos/:id_agendamento/excluir', async (req,res) => {
 });
 
 //bancos de sangue
-app.post('/bancosSangue/:id_sangue/excluir', async (req,res) => {
+app.post('/bancosSangue/:id/excluir', async (req,res) => {
     try{
-        let bancoSangueExcluir = await bancoSangue.findByPk(req.params.id_sangue);
+        let bancoSangueExcluir = await bancoSangue.findByPk(req.params.id);
         await bancoSangueExcluir.destroy();
         res.redirect('/bancosSangue');
     }catch(error){
@@ -557,9 +471,9 @@ app.post('/bancosSangue/:id_sangue/excluir', async (req,res) => {
 });
 
 //internamentos
-app.post('/internamentos/:id_internamento/excluir', async (req,res) => {
+app.post('/internamentos/:id/excluir', async (req,res) => {
     try{
-        let internamentoExcluir = await internamento.findByPk(req.params.id_internamento);
+        let internamentoExcluir = await internamento.findByPk(req.params.id);
         await internamentoExcluir.destroy();
         res.redirect('/internamentos');
     }catch(error){
@@ -569,9 +483,9 @@ app.post('/internamentos/:id_internamento/excluir', async (req,res) => {
 });
 
 //cirurgias
-app.post('/cirurgias/:id_cirurgia/excluir', async (req,res) => {
+app.post('/cirurgias/:id/excluir', async (req,res) => {
     try{
-        let cirurgiaExcluir = await cirurgia.findByPk(req.params.id_cirurgia);
+        let cirurgiaExcluir = await cirurgia.findByPk(req.params.id);
         await cirurgiaExcluir.destroy();
         res.redirect('/cirurgias');
     }catch(error){

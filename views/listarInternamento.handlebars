@@ -11,10 +11,10 @@
     <ul>
         {{#each internamentos}}
             <li>
-                <a href="/internamentos/{{id_internamento}}">{{nome_paciente}}</a>
-                <a href="/internamentos/{{id_internamento}}/editar">Editar</a>
+                <a href="/internamentos/{{id}}">{{nome_paciente}}</a>
+                <a href="/internamentos/{{id}}/editar">Editar</a>
 
-                <form action="/internamentos/{{id_internamento}}/excluir" method="post" style="display: inline;">
+                <form action="/internamentos/{{id}}/excluir" method="post" style="display: inline;">
                     <button type="submit" onclick="return confirm('Confirmar exclusão?')">
                         Excluir
                     </button>

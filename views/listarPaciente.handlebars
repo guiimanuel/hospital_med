@@ -11,10 +11,10 @@
     <ul>
         {{#each pacientes}}
             <li>
-                <a href="/pacientes/{{id_paciente}}">{{nome}}</a>
-                <a href="/pacientes/{{id_paciente}}/editar">Editar</a>
+                <a href="/pacientes/{{id}}">{{nome}}</a>
+                <a href="/pacientes/{{id}}/editar">Editar</a>
 
-                <form action="/pacientes/{{id_paciente}}/excluir" method="post" style="display: inline;">
+                <form action="/pacientes/{{id}}/excluir" method="post" style="display: inline;">
                     <button type="submit" onclick="return confirm('Confirmar exclusão?')">
                         Excluir
                     </button>
