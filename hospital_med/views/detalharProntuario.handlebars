@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Prontuário - HOSPITAL_MED</title>
+</head>
+<body>
+
+<h1>Detalhamento de Prontuario - HOSPITAL_MED</h1>
+
+<p><strong>ID:</strong> {{prontuario.id}}</a></p>
+<p><strong>ID do Paciente:</strong> <a href="/pacientes/{{prontuario.id_paciente}}">{{prontuario.id_paciente}}</a></p>
+<p><strong>ID do Agendamento:</strong> <a href="/agendamentos/{{prontuario.id_agendamento}}">{{prontuario.id_agendamento}}</a></p>
+
+<br>
+
+<p><strong>Diagnóstico:</strong></p>
+<p>{{prontuario.diagnostico}}</p>
+
+<p><strong>Observações:</strong></p>
+<p>{{prontuario.observacoes}}</p>
+
+<br>
+<a href="/prontuarios">Voltar</a>
+
+</body>
+</html>

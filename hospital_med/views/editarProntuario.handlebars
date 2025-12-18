@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Prontuario - HOSPITAL_MED</title>
+</head>
+<body>
+
+<h1>Editar Prontuario - HOSPITAL_MED</h1>
+
+<form action="/prontuarios/editar/{{prontuario.id}}" method="post">
+
+    <label>ID do Paciente</label><br>
+    <input
+        type="number"
+        name="id_paciente"
+        value="{{prontuario.id_paciente}}"
+        required
+    >
+    <br><br>
+
+    <label>ID do Agendamento</label><br>
+    <input
+        type="number"
+        name="id_agendamento"
+        value="{{prontuario.id_agendamento}}"
+        required
+    >
+    <br><br>
+
+    <label>Diagnóstico</label><br>
+    <input
+        type="text"
+        name="diagnostico"
+        value="{{prontuario.diagnostico}}"
+        required
+    >
+    <br><br>
+
+    <label>Observações</label><br>
+    <textarea name="observacoes">{{prontuario.observacoes}}</textarea>
+    <br><br>
+
+    <button type="submit">Salvar</button>
+
+</form>
+
+</body>
+</html>

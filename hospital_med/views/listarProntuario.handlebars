@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuario - HOSPITAL_MED</title>
+</head>
+<body>
+    <h1>Listar Prontuarios - HOSPITAL_MED</h1>
+
+    <ul>
+        {{#each prontuarios}}
+            <li>
+                <a href="/prontuarios/{{id}}">ID:{{id}}</a>
+                <a href="/prontuarios/{{id_paciente}}">ID Paciente: {{id_paciente}}</a>
+                <a href="/prontuarios/{{id_agendamento}}">ID Agendamento: {{id_agendamento}}</a>
+                <a href="/prontuarios/{{id}}/editar">Editar</a>
+                <form action="/prontuarios/{{id}}/excluir" method="post" style="display: inline;">
+                    <button type="submit" onclick="return confirm('Confirmar exclusão?')">
+                        Excluir
+                    </button>
+                </form>
+            </li>
+        {{/each}}
+    </ul>
+
+    <a href="/">Voltar</a>
+</body>
+</html>

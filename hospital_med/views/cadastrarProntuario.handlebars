@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuário - HOSPITAL_MED</title>
+</head>
+<body>
+
+    <h1>Prontuário - HOSPITAL_MED</h1>
+
+    <form action="/prontuarios" method="post">
+
+        <label for="id_paciente">ID do Paciente</label><br>
+        <input 
+            type="number" 
+            name="id_paciente" 
+            placeholder="ID do Paciente" 
+            required
+        >
+        <br><br>
+
+        <label for="id_agendamento">ID do Agendamento</label><br>
+        <input 
+            type="number" 
+            name="id_agendamento" 
+            placeholder="ID do Agendamento" 
+            required
+        >
+        <br><br>
+
+        <label for="diagnostico">Diagnóstico</label><br>
+        <input 
+            type="text" 
+            name="diagnostico" 
+            placeholder="Diagnóstico" 
+            required
+        >
+        <br><br>
+
+        <label for="observacoes">Observações</label><br>
+        <textarea 
+            name="observacoes" 
+            placeholder="Observações (opcional)">
+        </textarea>
+        <br><br>
+
+        <button type="submit">Cadastrar</button>
+
+    </form>
+
+    <br>
+    <a href="/">Voltar</a>
+
+</body>
+</html>
